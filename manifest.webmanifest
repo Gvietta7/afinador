@@ -1,0 +1,15 @@
+{
+  "name": "Afinador de Guitarra",
+  "short_name": "Afinador",
+  "description": "Afinador por microfone e por vibração (acelerômetro).",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0f1216",
+  "theme_color": "#0f1216",
+  "lang": "pt-BR",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

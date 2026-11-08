@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0f1216">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Afinador</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon.svg">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="app">
+    <header class="top">
+      <h1>Afinador</h1>
+      <div class="modes" role="tablist">
+        <button class="mode active" data-mode="mic" role="tab" aria-selected="true">Microfone</button>
+        <button class="mode" data-mode="vib" role="tab" aria-selected="false">Vibração</button>
+      </div>
+    </header>
+
+    <p class="hint" id="hint"></p>
+
+    <section class="display" id="display" data-state="idle">
+      <svg class="gauge" viewBox="0 0 200 112" aria-hidden="true">
+        <path class="arc" d="M 14 100 A 86 86 0 0 1 186 100" />
+        <path class="arc-ok" d="M 92.5 14.3 A 86 86 0 0 1 107.5 14.3" />
+        <g class="ticks" id="ticks"></g>
+        <g id="needle" class="needle">
+          <line x1="100" y1="100" x2="100" y2="22" />
+          <circle cx="100" cy="100" r="5" />
+        </g>
+      </svg>
+      <div class="readout">
+        <div class="note"><span id="note">–</span><sub id="octave"></sub></div>
+        <div class="cents" id="cents">Toque uma corda</div>
+        <div class="freq" id="freq">&nbsp;</div>
+      </div>
+    </section>
+
+    <label class="tuning">Afinação
+      <select id="tuning"></select>
+    </label>
+
+    <section class="strings" id="strings" aria-label="Corda"></section>
+
+    <section class="controls">
+      <button id="toggle" class="primary">Iniciar</button>
+      <label class="a4">Lá <input id="a4" type="number" inputmode="numeric" min="400" max="480" step="1" value="440"> Hz</label>
+    </section>
+
+    <p class="status" id="status"></p>
+  </main>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
