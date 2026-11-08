@@ -1,4 +1,4 @@
-const CACHE = 'afinador-v1';
+const CACHE = 'afinador-v2';
 const ASSETS = ['./', './index.html', './styles.css', './app.js', './pitch.mjs', './manifest.webmanifest', './icon.svg'];
 
 self.addEventListener('install', (e) => {

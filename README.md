@@ -5,6 +5,10 @@ Afinador que roda no navegador do celular e pode ser instalado como app. Dois mo
 - **Microfone**: detecção de altura pelo método McLeod (MPM) sobre o áudio do microfone. Funciona apontando para a guitarra ou com o celular apoiado no corpo do instrumento (o microfone capta a vibração da madeira, útil em ambiente barulhento).
 - **Vibração** (experimental): usa o acelerômetro com o celular deitado sobre o tampo. Como o sensor entrega só ~60 Hz, as frequências das cordas chegam "dobradas" (aliasing). O app sabe qual corda está sendo afinada, calcula onde o fundamental e os harmônicos cairiam depois do dobramento e procura o desvio em cents que melhor explica o sinal (filtro pente). Exige escolher a corda.
 
+## Interface
+
+Dark mode em grafite (fundo #101217, superfície #1B2029), tipografia Instrument Sans com numerais tabulares, indicador semicircular de 31 segmentos que acendem do centro em direção ao desvio, marcador com mola criticamente amortecida (sem tremor, sem atraso perceptível) e oito estados explícitos: pronto, pedindo acesso, ouvindo, nota detectada, abaixo, acima, afinada e sinal perdido. Sem bibliotecas de animação: CSS e requestAnimationFrame. Respeita prefers-reduced-motion.
+
 ## Arquivos
 
 | Arquivo | Função |
