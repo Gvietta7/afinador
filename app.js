@@ -11,7 +11,7 @@ const els = {
   advice: $('advice'), adviceText: $('adviceText'),
   strings: $('strings'), stringsThumb: $('stringsThumb'),
   toggle: $('toggle'), toggleLabel: document.querySelector('#toggle .start-label'),
-  a4: $('a4'), status: $('status'), tuning: $('tuning'), tuningName: $('tuningName'),
+  a4: $('a4'), status: $('status'), tuning: $('tuning'), tuningName: $('tuningName'), copyBtn: $('copyBtn'),
 };
 
 const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -276,7 +276,7 @@ function stopMic() {
 }
 
 // ----------------------------------------------------------------- Vibração
-const vib = { samples: [], timer: 0, onMotion: null, recent: [] };
+const vib = { samples: [], timer: 0, onMotion: null, recent: [], lastWindow: null };
 const VIB_WINDOW_MS = 3000;
 
 async function startVib() {
@@ -338,6 +338,12 @@ function vibTick() {
   if (r && r.mirrorAxisCents != null && Math.abs(r.mirrorAxisCents) < 60) {
     extra += ` · direção confiável até ±${Math.abs(r.mirrorAxisCents).toFixed(0)} cents`;
   }
+  if (!r) {
+    // Diagnóstico: quão perto do limiar (3,5) a melhor hipótese chegou.
+    const diag = analyzeVibration(best.arr, fs, midiToFreq(s.midi, state.a4), { minRatio: 0 });
+    if (diag && !diag.unreachable) extra += ` · confiança ${diag.snr.toFixed(1)} (mín. 3,5)`;
+  }
+  vib.lastWindow = { fs, jitterMs, axis: best.axis, string: s.id, a4: state.a4, samples: Array.from(best.arr, (v) => +v.toFixed(4)) };
   setStatus(info + extra);
 
   const now = performance.now();
@@ -354,6 +360,18 @@ function vibTick() {
   } else if (state.ui === 'lost' && now - state.lastReadingAt > 4000) {
     showWaiting('listening');
   }
+}
+
+// Copia a última janela do sensor (3 s) para análise fora do app.
+async function copySensorData() {
+  if (!vib.lastWindow) { els.copyBtn.textContent = 'Sem dados ainda'; return; }
+  try {
+    await navigator.clipboard.writeText(JSON.stringify(vib.lastWindow));
+    els.copyBtn.textContent = 'Copiado';
+  } catch {
+    els.copyBtn.textContent = 'Não foi possível copiar';
+  }
+  setTimeout(() => { els.copyBtn.textContent = 'Copiar dados do sensor'; }, 1800);
 }
 
 function stopVib() {
@@ -432,6 +450,7 @@ els.a4.addEventListener('change', () => {
 });
 document.addEventListener('visibilitychange', () => { if (document.hidden && state.running) stop(); });
 window.addEventListener('resize', moveStringsThumb);
+els.copyBtn.addEventListener('click', copySensorData);
 
 for (const t of TUNINGS) {
   const o = document.createElement('option');

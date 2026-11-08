@@ -55,7 +55,7 @@ svg { display: block; }
   margin: 0 auto;
   padding: calc(14px + env(safe-area-inset-top)) 20px calc(18px + env(safe-area-inset-bottom));
   display: grid;
-  grid-template-rows: auto 1fr auto auto auto;
+  grid-template-rows: auto 1fr auto auto auto auto;
   row-gap: 18px;
 }
 
@@ -261,6 +261,15 @@ svg { display: block; }
 
 .detail { margin: 0; min-height: 1.5em; color: var(--text-3); font-size: 12px; line-height: 1.5; text-align: center; }
 .detail.error { color: var(--bad); }
+
+.copy {
+  display: none; justify-self: center; margin-top: -8px;
+  border: 1px solid var(--line); background: transparent; color: var(--text-3);
+  padding: 8px 14px; border-radius: 999px; font-size: 12.5px; font-weight: 500;
+  transition: color var(--dur), border-color var(--dur);
+}
+.copy:hover { color: var(--text); border-color: var(--line-strong); }
+.app[data-mode="vib"] .copy { display: inline-flex; }
 
 /* ------------------------------------------------------------------ entrada */
 /* a classe .enter é adicionada pelo JS só quando a aba está visível ao carregar */
